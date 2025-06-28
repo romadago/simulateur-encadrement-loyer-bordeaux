@@ -1,16 +1,24 @@
 import React, { useState, useEffect } from 'react';
 
 // --- Static Data & Configuration ---
-const rentData = {
-    // Loyers de référence en €/m² pour NON MEUBLÉ
-    // Format: Zone -> Pièces -> [minoré, référence, majoré]
+
+// Define types for the data structure to prevent TypeScript errors
+type RentRates = [number, number, number]; // [minoré, référence, majoré]
+type PiecesData = { [key: string]: RentRates };
+type ZoneData = { [key: string]: PiecesData };
+
+interface RentDataStructure {
+    'non-meuble': ZoneData;
+    'majoration-meuble': number;
+}
+
+const rentData: RentDataStructure = {
     'non-meuble': {
         '1': { '1': [10.0, 14.3, 17.2], '2': [8.8, 12.6, 15.1], '3': [7.9, 11.3, 13.6], '4': [7.7, 11.0, 13.2] },
         '2': { '1': [9.1, 13.0, 15.6], '2': [8.0, 11.4, 13.7], '3': [7.2, 10.3, 12.4], '4': [7.0, 10.0, 12.0] },
         '3': { '1': [8.4, 12.0, 14.4], '2': [7.4, 10.5, 12.6], '3': [6.8, 9.7, 11.6], '4': [6.6, 9.4, 11.3] },
         '4': { '1': [7.8, 11.2, 13.4], '2': [6.9, 9.8, 11.8], '3': [6.3, 9.0, 10.8], '4': [6.1, 8.7, 10.4] }
     },
-    // Coefficient de majoration pour les MEUBLÉS
     'majoration-meuble': 1.15 // +15%
 };
 
